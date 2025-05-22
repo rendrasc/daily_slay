@@ -50,9 +50,10 @@ button:hover {
   color: #333;
 }
 
-/* Color Themes for Different Chains */
+/* Chain Themes */
 .optimism { background-color: #ff0420; color: white; }
 .soneium  { background-color: #0054ff; color: white; }
 .lisk     { background-color: #1a65f0; color: white; }
 .base     { background-color: #0052ff; color: white; }
 .ink      { background-color: #333333; color: white; }
+
