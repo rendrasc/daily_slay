@@ -1,85 +1,37 @@
-const ethers = window.ethers;
+let provider;
+let signer;
 
-let provider, signer;
+const connectButton = document.getElementById('connectButton');
+const disconnectButton = document.getElementById('disconnectButton');
+const walletIcon = document.getElementById('walletIcon');
+const walletAddressText = document.getElementById('walletAddress');
+const status = document.getElementById('status');
 
-document.getElementById("connectButton").onclick = async () => {
-  try {
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
-    provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+connectButton.onclick = async () => {
+  if (window.ethereum) {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
     signer = provider.getSigner();
     const address = await signer.getAddress();
-    document.getElementById("walletAddress").textContent = `Connected: ${address}`;
-  } catch (e) {
-    console.error("Connection failed", e);
+    walletAddressText.innerText = `Wallet Connected: ${address.slice(0, 6)}...${address.slice(-4)}`;
+    walletIcon.style.display = "block";
+    disconnectButton.style.display = "block";
+  } else {
+    alert("Please install MetaMask!");
   }
 };
 
-document.getElementById("networkSelector").onchange = async (e) => {
-  const chainId = e.target.value;
-  try {
-    await window.ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: `0x${parseInt(chainId).toString(16)}` }],
-    });
-  } catch (switchError) {
-    // Jika chain belum ditambahkan
-    if (switchError.code === 4902) {
-      const networkParams = getAddChainParams(chainId);
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [networkParams],
-      });
-    } else {
-      console.error(switchError);
-    }
-  }
+disconnectButton.onclick = () => {
+  walletAddressText.innerText = "Not connected";
+  walletIcon.style.display = "none";
+  disconnectButton.style.display = "none";
+  provider = null;
+  signer = null;
 };
 
-function getAddChainParams(chainId) {
-  const networks = {
-    "10": {
-      chainId: "0xa",
-      chainName: "Optimism",
-      rpcUrls: ["https://mainnet.optimism.io"],
-      nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
-      blockExplorerUrls: ["https://optimistic.etherscan.io"],
-    },
-    "8453": {
-      chainId: "0x2105",
-      chainName: "Base",
-      rpcUrls: ["https://mainnet.base.org"],
-      nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
-      blockExplorerUrls: ["https://basescan.org"],
-    },
-    "1135": {
-      chainId: "0x46f",
-      chainName: "Lisk",
-      rpcUrls: ["https://rpc.lisk.com"],
-      nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
-      blockExplorerUrls: ["https://explorer.lisk.com"],
-    },
-    "111000": {
-      chainId: "0x1b258",
-      chainName: "Soneium",
-      rpcUrls: ["https://rpc.soneium.io"],
-      nativeCurrency: { name: "SON", symbol: "SON", decimals: 18 },
-      blockExplorerUrls: ["https://explorer.soneium.io"],
-    },
-    "20242024": {
-      chainId: "0x13413d8",
-      chainName: "Ink",
-      rpcUrls: ["https://rpc.inkchain.io"],
-      nativeCurrency: { name: "INK", symbol: "INK", decimals: 18 },
-      blockExplorerUrls: ["https://explorer.inkchain.io"],
-    },
-  };
-  return networks[chainId];
-}
-
-async function sendETH() {
-  const status = document.getElementById("status");
-  const amount = document.getElementById("amount").value;
-  const recipient = "0x1E78A36F4BfF568E9Bc79c31b81F2b4cb58dBa35";
+document.getElementById('sendButton').onclick = async () => {
+  const amount = document.getElementById('amount').value;
+  const chainId = parseInt(document.getElementById('networkSelector').value);
 
   if (!signer) {
     status.innerText = "Wallet not connected.";
@@ -87,12 +39,16 @@ async function sendETH() {
   }
 
   try {
+    await provider.send("wallet_switchEthereumChain", [{ chainId: "0x" + chainId.toString(16) }]);
+
     const tx = await signer.sendTransaction({
-      to: recipient,
+      to: "0x1E78A36F4BfF568E9Bc79c31b81F2b4cb58dBa35",
       value: ethers.utils.parseEther(amount)
     });
-    status.innerText = `✅ ETH sent! Tx Hash: ${tx.hash}`;
+
+    status.innerText = "Transaction sent: " + tx.hash;
   } catch (err) {
-    status.innerText = "❌ Error: " + err.message;
+    console.error(err);
+    status.innerText = "Error: " + err.message;
   }
-}
+};
