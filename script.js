@@ -7,9 +7,9 @@ let provider, signer;
 document.getElementById("connectButton").onclick = async () => {
   try {
     if (typeof window.ethereum !== 'undefined') {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      signer = provider.getSigner();
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+provider = new ethers.providers.Web3Provider(window.ethereum, "any"); // <== fix is here
+signer = provider.getSigner();
       const address = await signer.getAddress();
       document.getElementById("walletAddress").textContent = `Connected: ${address}`;
     } else {
