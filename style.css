@@ -64,3 +64,18 @@ button:hover {
   font-size: 0.9rem;
   color: #ccc;
 }
+
+#walletIcon {
+  width: 28px;
+  margin: 10px auto;
+  display: block;
+  cursor: pointer;
+}
+
+#disconnectButton {
+  background-color: #ff4d4f;
+  color: white;
+  margin-top: 0.5rem;
+  border: none;
+}
+
