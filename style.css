@@ -1,7 +1,8 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f0f0f0;
+  background: #f8f8f8;
   margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,13 +10,12 @@ body {
 }
 
 .container {
+  text-align: center;
   background: white;
   padding: 30px;
   border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  width: 320px;
-  transition: background-color 0.3s ease;
+  width: 300px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
 .logo {
@@ -23,37 +23,28 @@ body {
   margin-bottom: 20px;
 }
 
-input, select {
+input, button {
+  margin-top: 10px;
+  width: 100%;
   padding: 10px;
   font-size: 16px;
-  width: 100%;
-  margin-top: 10px;
 }
 
 button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-top: 10px;
-  background-color: #4caf50;
+  background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #3e8e41;
 }
 
-#status, #walletInfo {
-  margin-top: 15px;
+#status {
+  margin-top: 10px;
   font-size: 14px;
-  color: #333;
+  color: #444;
 }
 
-/* Chain Themes */
-.optimism { background-color: #ff0420; color: white; }
-.soneium  { background-color: #0054ff; color: white; }
-.lisk     { background-color: #1a65f0; color: white; }
-.base     { background-color: #0052ff; color: white; }
-.ink      { background-color: #333333; color: white; }
 
