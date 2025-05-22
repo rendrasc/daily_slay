@@ -1,0 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  transition: background-color 0.3s ease;
+}
+
+.logo {
+  max-width: 100px;
+  margin-bottom: 20px;
+}
+
+input, select {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#status, #walletInfo {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Color Themes for Different Chains */
+.optimism { background-color: #ff0420; color: white; }
+.soneium  { background-color: #0054ff; color: white; }
+.lisk     { background-color: #1a65f0; color: white; }
+.base     { background-color: #0052ff; color: white; }
+.ink      { background-color: #333333; color: white; }
