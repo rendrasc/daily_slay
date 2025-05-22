@@ -1,49 +1,57 @@
+// Replace with your actual WalletConnect Cloud Project ID (free at cloud.walletconnect.com)
+const projectId = "YOUR_PROJECT_ID";
+
+// Supported EVM chains (incl. L2s)
+const chains = [
+  { id: 1, name: "Ethereum" },
+  { id: 10, name: "Optimism" },
+  { id: 59144, name: "Soneium" },
+  { id: 111, name: "Lisk" },
+  { id: 8453, name: "Base" },
+  { id: 999, name: "Ink" }
+];
+
+const metadata = {
+  name: "ETH Support UI",
+  description: "Send ETH to support",
+  url: "https://rendrasc.github.io/daily_slay",
+  icons: ["images/logo.svg"]
+};
+
+const { Web3Modal } = window.web3modal;
+const { EthereumClient, w3mConnectors, w3mProvider } = window.web3modal;
+const { configureChains, createConfig, WagmiConfig } = window.wagmi;
+
+const ethers = window.ethers;
+
+const provider = new ethers.providers.Web3Provider(window.ethereum);
 let signer;
 
-async function connectWallet() {
-  const connectButton = document.getElementById("connectButton");
-  const walletInfo = document.getElementById("walletInfo");
-  const selector = document.getElementById("walletSelector");
+const modal = new Web3Modal({
+  projectId,
+  themeMode: "light",
+  walletConnectVersion: 2,
+  metadata
+});
 
-  if (!window.ethereum || selector.value !== "metamask") {
-    alert("Please install MetaMask or select a supported wallet.");
-    return;
-  }
-
+document.getElementById("connectButton").onclick = async () => {
   try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
+    const accounts = await modal.connect();
     signer = provider.getSigner();
     const address = await signer.getAddress();
-    const network = await provider.getNetwork();
-
-    const chainThemes = {
-      10: 'optimism',     // Optimism
-      59144: 'soneium',   // Soneium
-      111: 'lisk',        // Lisk
-      8453: 'base',       // Base
-      999: 'ink'          // Ink (example chain ID)
-    };
-
-    const themeClass = chainThemes[network.chainId];
-    const container = document.getElementById("appContainer");
-    container.className = "container " + (themeClass || "");
-
-    walletInfo.innerText = `Connected: ${address} (Chain ID: ${network.chainId})`;
-    connectButton.disabled = true;
-  } catch (error) {
-    console.error(error);
-    walletInfo.innerText = "Failed to connect wallet.";
+    document.getElementById("walletAddress").textContent = `Connected: ${address}`;
+  } catch (e) {
+    console.error("Wallet connect failed", e);
   }
-}
+};
 
 async function sendETH() {
-  const amount = document.getElementById("amount").value;
   const status = document.getElementById("status");
-  const recipient = "0xYourRecipientAddressHere"; // Replace with your address
+  const amount = document.getElementById("amount").value;
+  const recipient = "0xYourRecipientAddressHere"; // Replace this
 
   if (!signer) {
-    status.innerText = "Please connect wallet first.";
+    status.innerText = "Wallet not connected.";
     return;
   }
 
@@ -52,10 +60,9 @@ async function sendETH() {
       to: recipient,
       value: ethers.utils.parseEther(amount)
     });
-
-    status.innerText = "Transaction sent! Hash: " + tx.hash;
+    status.innerText = `Sent! Tx Hash: ${tx.hash}`;
   } catch (err) {
-    console.error(err);
-    status.innerText = "Transaction failed: " + err.message;
+    status.innerText = "Error: " + err.message;
   }
 }
+
