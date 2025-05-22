@@ -11,12 +11,19 @@
 <body>
   <div class="container" id="appContainer">
     <img src="images/logo.svg" alt="Brand Logo" class="logo" />
-    <h1>Support Us</h1>
+    <h1>Daily Slay!</h1>
 
     <div id="wallet-section">
       <button id="connectButton">Connect Wallet</button>
       <p id="walletAddress">Not connected</p>
     </div>
+<select id="networkSelector">
+  <option value="10">Optimism</option>
+  <option value="8453">Base</option>
+  <option value="1135">Lisk</option>
+  <option value="111000">Soneium</option>
+  <option value="20242024">Ink</option>
+</select>
 
     <input type="text" id="amount" placeholder="Amount in ETH" />
     <button onclick="sendETH()">Send ETH</button>
