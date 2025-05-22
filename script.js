@@ -1,54 +1,29 @@
-// Replace with your actual WalletConnect Cloud Project ID (free at cloud.walletconnect.com)
-const projectId = "Daily Slay";
-
-// Supported EVM chains (incl. L2s)
-const chains = [
-  { id: 1, name: "Ethereum" },
-  { id: 10, name: "Optimism" },
-  { id: 59144, name: "Soneium" },
-  { id: 111, name: "Lisk" },
-  { id: 8453, name: "Base" },
-  { id: 999, name: "Ink" }
-];
-
-const metadata = {
-  name: "ETH L2 Daily Slay",
-  description: "L2 Daily Slay",
-  url: "https://rendrasc.github.io/daily_slay",
-  icons: ["images/logo.svg"]
-};
-
-const { Web3Modal } = window.web3modal;
-const { EthereumClient, w3mConnectors, w3mProvider } = window.web3modal;
-const { configureChains, createConfig, WagmiConfig } = window.wagmi;
+const projectId = "c4c3e0d4c90c191bdf83b8b8e0ea6f19";
 
 const ethers = window.ethers;
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-let signer;
-
-const modal = new Web3Modal({
-  projectId,
-  themeMode: "light",
-  walletConnectVersion: 2,
-  metadata
-});
+let provider, signer;
 
 document.getElementById("connectButton").onclick = async () => {
   try {
-    const accounts = await modal.connect();
-    signer = provider.getSigner();
-    const address = await signer.getAddress();
-    document.getElementById("walletAddress").textContent = `Connected: ${address}`;
+    if (typeof window.ethereum !== 'undefined') {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      signer = provider.getSigner();
+      const address = await signer.getAddress();
+      document.getElementById("walletAddress").textContent = `Connected: ${address}`;
+    } else {
+      alert("Please install MetaMask or another EVM wallet.");
+    }
   } catch (e) {
-    console.error("Wallet connect failed", e);
+    console.error("Connection failed", e);
   }
 };
 
 async function sendETH() {
   const status = document.getElementById("status");
   const amount = document.getElementById("amount").value;
-  const recipient = "0x1E78A36F4BfF568E9Bc79c31b81F2b4cb58dBa35"; // Replace this
+  const recipient = "0x000000000000000000000000000000000000dead";
 
   if (!signer) {
     status.innerText = "Wallet not connected.";
@@ -65,4 +40,5 @@ async function sendETH() {
     status.innerText = "Error: " + err.message;
   }
 }
+
 
