@@ -68,7 +68,7 @@ button:hover {
 #walletIcon {
   width: 28px;
   margin: 10px auto;
-  color: #fff;
+  color: white;
   display: block;
   cursor: pointer;
 }
