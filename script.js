@@ -5,7 +5,6 @@ const connectButton = document.getElementById('connectButton');
 const disconnectButton = document.getElementById('disconnectButton');
 const walletIcon = document.getElementById('walletIcon');
 const walletAddressText = document.getElementById('walletAddress');
-const status = document.getElementById('status');
 
 connectButton.onclick = async () => {
   if (window.ethereum) {
@@ -13,9 +12,11 @@ connectButton.onclick = async () => {
     await provider.send("eth_requestAccounts", []);
     signer = provider.getSigner();
     const address = await signer.getAddress();
-    walletAddressText.innerText = `Wallet Connected: ${address.slice(0, 6)}...${address.slice(-4)}`;
-    walletIcon.style.display = "block";
-    disconnectButton.style.display = "block";
+
+    walletAddressText.innerText = `Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
+    walletIcon.style.display = "inline";
+    disconnectButton.style.display = "inline";
+    connectButton.style.display = "none"; // sembunyikan tombol connect
   } else {
     alert("Please install MetaMask!");
   }
@@ -25,9 +26,11 @@ disconnectButton.onclick = () => {
   walletAddressText.innerText = "Not connected";
   walletIcon.style.display = "none";
   disconnectButton.style.display = "none";
+  connectButton.style.display = "inline"; // tampilkan kembali tombol connect
   provider = null;
   signer = null;
 };
+
 
 document.getElementById('sendButton').onclick = async () => {
   const amount = document.getElementById('amount').value;
