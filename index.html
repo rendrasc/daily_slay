@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send ETH</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container" id="appContainer">
+    <img src="logo.png" alt="Brand Logo" class="logo" />
+
+    <h1>Support Us with ETH</h1>
+
+    <select id="walletSelector">
+      <option value="">Select Wallet</option>
+      <option value="metamask">MetaMask</option>
+    </select>
+    <button onclick="connectWallet()" id="connectButton">Connect Wallet</button>
+    <p id="walletInfo">Not connected</p>
+
+    <input type="text" id="amount" placeholder="Amount in ETH" />
+    <button onclick="sendETH()">Send ETH</button>
+    <p id="status"></p>
+  </div>
+
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
