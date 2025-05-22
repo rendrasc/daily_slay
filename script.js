@@ -1,5 +1,5 @@
 // Replace with your actual WalletConnect Cloud Project ID (free at cloud.walletconnect.com)
-const projectId = "YOUR_PROJECT_ID";
+const projectId = "Daily Slay";
 
 // Supported EVM chains (incl. L2s)
 const chains = [
@@ -12,8 +12,8 @@ const chains = [
 ];
 
 const metadata = {
-  name: "ETH Support UI",
-  description: "Send ETH to support",
+  name: "ETH L2 Daily Slay",
+  description: "L2 Daily Slay",
   url: "https://rendrasc.github.io/daily_slay",
   icons: ["images/logo.svg"]
 };
@@ -48,7 +48,7 @@ document.getElementById("connectButton").onclick = async () => {
 async function sendETH() {
   const status = document.getElementById("status");
   const amount = document.getElementById("amount").value;
-  const recipient = "0xYourRecipientAddressHere"; // Replace this
+  const recipient = "0x1E78A36F4BfF568E9Bc79c31b81F2b4cb58dBa35"; // Replace this
 
   if (!signer) {
     status.innerText = "Wallet not connected.";
